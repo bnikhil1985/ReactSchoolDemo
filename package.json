@@ -1,0 +1,30 @@
+{
+  "name": "foobar",
+  "version": "2.35.4",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "babel": "babel index.js -o dist "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bnikhil1985/ReactSchoolDemo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bnikhil1985/ReactSchoolDemo/issues"
+  },
+  "homepage": "https://github.com/bnikhil1985/ReactSchoolDemo#readme",
+  "dependencies": {
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.1.0",
+    "@babel/preset-es2015": "^7.0.0-beta.53",
+    "@babel/preset-react": "^7.0.0"
+  }
+}
