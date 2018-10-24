@@ -1,11 +1,8 @@
 const React = window.React;
 const ReactDOM = window.ReactDOM;
-
-const HelloMessage = ({}) => {
- return <div>hello</div>;
-}
+import App from './App';
 
 ReactDOM.render(
- <HelloMessage/>,
+  <App />,
  document.getElementById('app'),
 );
