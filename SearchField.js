@@ -22,6 +22,7 @@ export default class SearchField extends PureComponent {
         this.props.onTextDone(this.state.textBoxVal);
       }}>
         <input type="text" onKeyDown={this.onKey.bind(this)}/>
+        <button onclick="$('#send-button').click() || .submit()"> submit</button>
       </form>
     );
   }
