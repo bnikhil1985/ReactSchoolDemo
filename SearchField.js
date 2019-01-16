@@ -6,23 +6,21 @@ window.doThing = () => {
 export default class SearchField extends PureComponent {
   constructor(){
     super();
-    this.state = {
-      textBoxVal: ''
-    }
+
+    // this.onKey/ = this.onKey.bind(this);
+    this.submitFunc = this.submitFunc.bind(this)
+    this.input = React.createRef()
   }
-  onKey(event) {
-    this.setState({
-      textBoxVal: event.target.value,
-    })
+  
+  submitFunc(event) {
+    event.preventDefault();
+    this.props.onTextDone(this.input.current.value);
   }
   render(){
     return (
-      <form onSubmit={(event) => {
-        event.preventDefault();
-        this.props.onTextDone(this.state.textBoxVal);
-      }}>
-        <input type="text" onKeyDown={this.onKey.bind(this)}/>
-        <button onclick="$('#send-button').click() || .submit()"> submit</button>
+      <form onSubmit={this.submitFunc}>
+        <input ref={this.input} type="text"/>
+        <button> submit</button>
       </form>
     );
   }
