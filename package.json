@@ -21,7 +21,8 @@
   "homepage": "https://github.com/bnikhil1985/ReactSchoolDemo#readme",
   "dependencies": {
     "react": "^16.5.2",
-    "react-dom": "^16.5.2"
+    "react-dom": "^16.5.2",
+    "youtube-api-search": "0.0.5"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
