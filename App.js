@@ -7,14 +7,27 @@ import Video from './Video';
 const API_KEY = 'AIzaSyC0nBySZQaiRMzCXOBqRdAVx0HRgFT5YdY';
 
 const reducer = (state, action) => {
-  console.log('I am in the reducer');
-  return {storeData: action.data};
+  // switch(action.type) {
+  //   case 'YT_GETSEARCHLIST':
+  //     return {storeData: action.data};
+  //   case '123':
+  //     return {storeData: action.data};
+  // }
+  if(action.type === 'SEARCH_TERM') {
+  console.log('I am in the reducer', action, state);
+    if(state && state.storeData) {
+      return {storeData: [...state.storeData, action.data]};
+    } else {
+      return {storeData: [action.data]};
+    }
+  }
+
 }
 const store = createStore(reducer);
-store.dispatch({
-  type: '123',
-  data: 'abc'
-})
+// store.dispatch({
+//   type: '123',
+//   data: 'abc'
+// })
 console.log('Reducer :----', store.getState());
 
 
@@ -40,7 +53,10 @@ export default class App extends PureComponent {
   // }
   state = { YTList: [] }
   YTSearch = (value) => {
-    // document.getElementById('submitted').style.display="block";
+    store.dispatch({
+      type: 'SEARCH_TERM',
+      data: value
+    })
     YTSearch({key: API_KEY, term: value}, (data) => {
       this.setState({YTList: data});
     });
