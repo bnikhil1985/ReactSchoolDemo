@@ -7,7 +7,6 @@ import Video from './Video';
 const API_KEY = 'AIzaSyC0nBySZQaiRMzCXOBqRdAVx0HRgFT5YdY';
 
 const reducer = (state, action) => {
-
   if(action.type === 'SEARCH_TERM') {
   console.log('I am in the reducer', action, state);
     if(state && state.storeData) {
@@ -40,7 +39,7 @@ export default class App extends PureComponent {
       type: 'SEARCH_TERM',
       data: value
     })
-console.log('Reducer :----', store.getState());
+console.log('Stored Data', store.getState());
     YTSearch({key: API_KEY, term: value}, (data) => {
       this.setState({YTList: data});
     });
