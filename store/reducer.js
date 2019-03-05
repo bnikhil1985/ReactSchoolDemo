@@ -1,25 +1,52 @@
 
 
 // action Creator
-const actionCreator = (value) => {
+const searchActionCreator = (value) => {
   return {
     type: 'SEARCH_TERM',
     data: value
   }
 };
 
+const checkedActionCreator = (value) => {
+  return {
+    type: 'TOGGLE_CHECKED',
+    data: value
+  }
+
+};
+
+const initialState = { storeData: []};
+
 // Reducer
-const reducer = (state, action) => {
-  if(action.type === 'SEARCH_TERM') {
-  console.log('I am in the reducer', action, state);
-    if(state && state.storeData) {
-      return {storeData: [...state.storeData, action.data]};
-    } else {
-      return {storeData: [action.data]};
-    }
+const reducer = (state = initialState, action) => {
+
+  switch(action.type) {
+    case 'SEARCH_TERM':
+      return {
+        storeData: [
+          ...state.storeData,
+          {
+            name : action.data,
+            checked: false
+          }
+        ]
+      };
+    case 'TOGGLE_CHECKED':
+      return {
+        storeData: [
+          ...state.storeData,
+          {
+            name : action.data,
+            checked: true
+          }
+        ]
+      };
+    default:
+      return state;
   }
 
 }
 
 export default reducer;
-export { actionCreator };
+export { searchActionCreator, checkedActionCreator };

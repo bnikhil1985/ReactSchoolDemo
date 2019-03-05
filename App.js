@@ -3,9 +3,10 @@ import { createStore } from 'redux';
 import { connect } from 'react-redux';
 import YTSearch from 'youtube-api-search';
 import SearchField from './SearchField';
+import CheckBox from './CheckBox';
 import Video from './Video';
 import store from './store/store';
-import { actionCreator } from './store/reducer';
+import { searchActionCreator, checkedActionCreator } from './store/reducer';
 import HelloMessage from './HelloMessage.js';
 import NameCard from './NameCard.js';
 
@@ -20,18 +21,11 @@ function onButtonClick(){
 }
 const displayNone = {display: "none"};
 
-// function mapStateToProps(state) {
-//   console.log('++++++++++++', state);
-//   return {
-//     storeData: state && state.storeData
-//   }
-// }
-
-export default class App extends PureComponent {
+class App extends PureComponent {
 
   state = { YTList: [], lat: 'abc', storeData: '' }
   YTSearch = (value) => {
-    const action = actionCreator(value);
+    const action = searchActionCreator(value);
     store.dispatch(action);
   console.log('Stored Data', store.getState());
     YTSearch({key: API_KEY, term: value}, (data) => {
@@ -39,11 +33,17 @@ export default class App extends PureComponent {
     });
   }
 
+  onClickHandler = (name) => {
+    const action = checkedActionCreator(name);
+    store.dispatch(action);
+  }
+
   // <SearchField id="foo" onTextDone={this.YTSearch}/>
   // {this.state.YTList.map((item) => {
   //   return <Video key ={item.id.videoId} videoId={item.id.videoId}/>;
   // })}
   render(){
+    console.log('this.Propd----------', this.props);
     this.setState({ lat: 'xyz'})
     return (
       <div className="ui container comments" >
@@ -52,20 +52,28 @@ export default class App extends PureComponent {
           latitude: {this.state.lat}
         </NameCard>
         <SearchField id="foo" onTextDone={this.YTSearch}/>
+
         <ul>
-          {this.state.storeData && this.state.storeData.map((data) => {
-            return <li>{data}</li>
+          {this.state.storeData && this.state.storeData.map(({name, checked}) => {
+            return <li key={name} onClick={(e) => this.onClickHandler(name) }> {name} {checked ? '✓': '✗' }</li>
           })}
         </ul>
 
         {this.state.YTList.map((item) => {
-          return <Video videoId={item.id.videoId}/>;
+          return <Video key ={item.id.videoId} videoId={item.id.videoId}/>;
         })}
       </div>
     );
   }
 }
 
-// export default connect(mapStateToProps)(
-//   App
-// )
+const mapStateToProps = (state) => {
+  return {
+    songs: state.songs
+    // storeData: state && state.storeData
+  };
+}
+
+export default connect(mapStateToProps, {
+  checkedActionCreator, searchActionCreator
+})(App)
