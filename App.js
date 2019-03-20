@@ -21,9 +21,12 @@ function onButtonClick(){
 }
 const displayNone = {display: "none"};
 
-class App extends PureComponent {
+class App extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+    this.state = { YTList: [], lat: 'abc', storeData: '' }
+  }
 
-  state = { YTList: [], lat: 'abc', storeData: '' }
   YTSearch = (value) => {
     const action = searchActionCreator(value);
     store.dispatch(action);
@@ -33,18 +36,23 @@ class App extends PureComponent {
     });
   }
 
-  onClickHandler = (name) => {
-    const action = checkedActionCreator(name);
+  onClickHandler = (name, id) => {
+    const action = checkedActionCreator(name, id);
     store.dispatch(action);
+    this.setState({storeData: store.getState().storeData});
   }
 
+  // componentDidUpdate(prevProp, updatedProp) {
+  //   console.log('componentDidUpdate', prevProp, updatedProp);
+
+  // }
   // <SearchField id="foo" onTextDone={this.YTSearch}/>
   // {this.state.YTList.map((item) => {
   //   return <Video key ={item.id.videoId} videoId={item.id.videoId}/>;
   // })}
   render(){
-    console.log('this.Propd----------', this.props);
-    this.setState({ lat: 'xyz'})
+    console.log('this.Props----------', this.props);
+    // this.setState({ lat: 'xyz'})
     return (
       <div className="ui container comments" >
         <NameCard>
@@ -54,8 +62,8 @@ class App extends PureComponent {
         <SearchField id="foo" onTextDone={this.YTSearch}/>
 
         <ul>
-          {this.state.storeData && this.state.storeData.map(({name, checked}) => {
-            return <li key={name} onClick={(e) => this.onClickHandler(name) }> {name} {checked ? '✓': '✗' }</li>
+          {this.state.storeData && this.state.storeData.map(({name, checked, id}) => {
+            return <li key={name} onClick={(e) => this.onClickHandler(name, id) }> {name} {checked ? '✓': '✗' }</li>
           })}
         </ul>
 
@@ -68,12 +76,12 @@ class App extends PureComponent {
 }
 
 const mapStateToProps = (state) => {
+  console.log('mapstate&&&&&&&&', state);
   return {
-    songs: state.songs
-    // storeData: state && state.storeData
+    storeData: (state && state.storeData) ? state.storeData: []
   };
 }
 
 export default connect(mapStateToProps, {
   checkedActionCreator, searchActionCreator
-})(App)
+})(App);

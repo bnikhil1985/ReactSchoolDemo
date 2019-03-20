@@ -1,17 +1,20 @@
-
+import UUID from 'uuid/v4';
 
 // action Creator
 const searchActionCreator = (value) => {
+  // const id = `${Math.random()}-${Math.random}`
+  const id = UUID();
   return {
     type: 'SEARCH_TERM',
-    data: value
+    data: {name: value, id}
   }
 };
 
-const checkedActionCreator = (value) => {
+const checkedActionCreator = (name, id) => {
+  // console.log('this is my vlaue', value);
   return {
     type: 'TOGGLE_CHECKED',
-    data: value
+    data: {name, id}
   }
 
 };
@@ -27,21 +30,29 @@ const reducer = (state = initialState, action) => {
         storeData: [
           ...state.storeData,
           {
-            name : action.data,
+            name : action.data.name,
+            id: action.data.id,
             checked: false
           }
         ]
       };
-    case 'TOGGLE_CHECKED':
-      return {
-        storeData: [
-          ...state.storeData,
-          {
-            name : action.data,
-            checked: true
+
+
+    case 'TOGGLE_CHECKED': {
+      const newStoreData = state.storeData.map(storedItem => {
+        if (action.data.id === storedItem.id){
+          return {
+            ...storedItem,
+            checked: !storedItem.checked,
           }
-        ]
+
+        }
+        return storedItem;
+      })
+      return {
+        storeData: newStoreData,
       };
+    }
     default:
       return state;
   }
